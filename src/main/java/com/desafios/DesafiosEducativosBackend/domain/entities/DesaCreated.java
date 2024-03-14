@@ -17,7 +17,8 @@ public class DesaCreated {
     private Integer id;
     private LocalDateTime created;
     @Column(name = "finished_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+  //  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", shape = JsonFormat.Shape.STRING)
     private LocalDateTime finishedDate;
     @Column(name = "name_desa")
     private String nameDesa;
@@ -25,18 +26,24 @@ public class DesaCreated {
     private String description;
     @Column(name = "num_rep")
     private Integer numRep;
+
+//    state = 0   eliminado
+//    state = 1   activo
+
+    private Integer state;
     @ManyToOne
     @JoinColumn(name = "user_created")
     private User userCreated;
     private String code;
 
 
-    public DesaCreated(LocalDateTime created, LocalDateTime finishedDate, String nameDesa, String description, Integer numRep, User userCreated, String code) {
+    public DesaCreated(LocalDateTime created, LocalDateTime finishedDate, String nameDesa, String description, Integer numRep, Integer state, User userCreated, String code) {
         this.created = created;
         this.finishedDate = finishedDate;
         this.nameDesa = nameDesa;
         this.description = description;
         this.numRep = numRep;
+        this.state = state;
         this.userCreated = userCreated;
         this.code = code;
     }

@@ -9,6 +9,9 @@ import java.util.Optional;
 public interface DesaCreatedService {
     List<DesaCreated> getDesaCreated();
     Optional<DesaCreated> findById(Integer id);
+    Optional<DesaCreated> findDesaCreatedById(Integer id);
     DesaCreated findByCode(String code);
     DesaCreated save(DesaCreated desaCreated);
+
+    List<DesaCreated>  getDesaCreatedByUserId( Integer userId);
 }

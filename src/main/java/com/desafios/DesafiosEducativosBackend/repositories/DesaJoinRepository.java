@@ -10,4 +10,6 @@ import java.util.List;
 public interface DesaJoinRepository extends JpaRepository<DesaJoin,Integer> {
     List<DesaJoin> getAllByUser_Id(Integer id);
     DesaJoin findDesaJoinByUser_IdAndAndDesaCreated_Id(Integer idUser, Integer idDesa);
+
+
 }

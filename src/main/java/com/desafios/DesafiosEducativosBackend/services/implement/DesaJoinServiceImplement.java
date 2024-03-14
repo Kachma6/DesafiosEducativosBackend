@@ -6,6 +6,8 @@ import com.desafios.DesafiosEducativosBackend.services.DesaJoinService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class DesaJoinServiceImplement implements DesaJoinService {
 
@@ -21,7 +23,12 @@ public class DesaJoinServiceImplement implements DesaJoinService {
     }
 
     @Override
-    public List<DesaJoin> getDesaJoinById(Integer id) {
+    public Optional<DesaJoin> getDesaJoinById(Integer id) {
+        return desaJoinRepository.findById(id);
+    }
+
+    @Override
+    public List<DesaJoin> getDesaJoinByUserId(Integer id) {
         return desaJoinRepository.getAllByUser_Id(id);
     }
 
@@ -33,5 +40,10 @@ public class DesaJoinServiceImplement implements DesaJoinService {
     @Override
     public DesaJoin getIdDesaJoinByIdUserAndIdDesaCreated(Integer idUser, Integer idDesa) {
         return desaJoinRepository.findDesaJoinByUser_IdAndAndDesaCreated_Id(idUser,idDesa);
+    }
+
+    @Override
+    public DesaJoin putDesaJoin(DesaJoin desaJoin) {
+        return desaJoinRepository.save(desaJoin);
     }
 }

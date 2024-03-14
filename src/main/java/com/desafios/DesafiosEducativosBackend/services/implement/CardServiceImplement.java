@@ -23,4 +23,15 @@ public class CardServiceImplement implements CardService {
     public Card save(Card card) {
         return cardRepository.save(card);
     }
+
+    @Override
+    public List<Card> getCardsByIdDesa(Integer id) {
+        return cardRepository.getCardsByIdDesaCreated_Id(id);
+    }
+
+    @Override
+    public List<Card> setListCards(List<Card> cards) {
+        return cardRepository.saveAll(cards);
+
+    }
 }

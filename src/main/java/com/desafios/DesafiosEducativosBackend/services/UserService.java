@@ -10,4 +10,6 @@ public interface UserService {
     Optional<User> getUserById(Integer id);
     User save(User user);
     void delete(Integer id);
+
+    User getUserByUsernameAndPassword(String username, String password);
 }

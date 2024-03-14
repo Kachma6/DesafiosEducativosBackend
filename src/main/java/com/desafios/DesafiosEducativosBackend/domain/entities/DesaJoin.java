@@ -14,6 +14,8 @@ public class DesaJoin {
     @ManyToOne
     @JoinColumn(name = "id_desa_created")
     private DesaCreated desaCreated;
+    @JoinColumn(name = "num_reps")
+    private Integer numReps;
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;

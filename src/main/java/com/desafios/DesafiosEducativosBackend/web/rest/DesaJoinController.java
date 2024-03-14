@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/inscribirse")
@@ -22,9 +23,9 @@ public class DesaJoinController {
         this.desaJoinService = desaJoinService;
         this.desaCreatedService = desaCreatedService;
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<List<DesaJoin>> getDesaJoin(@PathVariable final Integer id){
-        return ResponseEntity.ok().body(desaJoinService.getDesaJoinById(id));
+    @GetMapping("/{idUser}")
+    public ResponseEntity<List<DesaJoin>> getDesaJoinByUserId(@PathVariable final Integer idUser){
+        return ResponseEntity.ok().body(desaJoinService.getDesaJoinByUserId(idUser));
     }
     @GetMapping
     public ResponseEntity<List<DesaJoin>> getDesaCreated(){
@@ -55,6 +56,7 @@ public ResponseEntity<DesaJoin> inscribirse(@RequestBody final RegisterToDesa re
         DesaJoin desaJoin = new DesaJoin();
         desaJoin.setDesaCreated(desaCreated);
         desaJoin.setUser(registerToDesa.getUser());
+        desaJoin.setNumReps(0);
         DesaJoin db = desaJoinService.save(desaJoin);
         return ResponseEntity.created(new URI("/v1/users/"+db.getId())).body(db);
     }else{
@@ -63,5 +65,17 @@ public ResponseEntity<DesaJoin> inscribirse(@RequestBody final RegisterToDesa re
 
 
 }
+ @PutMapping("/{id}/edit-rep")
+ public ResponseEntity<DesaJoin> putDesaJoin(@PathVariable final Integer id ) throws URISyntaxException {
+     Optional<DesaJoin> desa = desaJoinService.getDesaJoinById(id);
+     if(desa.isPresent()){
+         desa.get().setNumReps(desa.get().getNumReps()+1);
+         desaJoinService.save(desa.get());
+     }
 
+
+    return ResponseEntity.ok(desa.get());
+
+
+ }
 }

@@ -36,6 +36,11 @@ public class DesaCreatedServiceImplement implements DesaCreatedService {
     }
 
     @Override
+    public Optional<DesaCreated> findDesaCreatedById(Integer id) {
+        return Optional.empty();
+    }
+
+    @Override
     public DesaCreated findByCode(String code) {
         return desaCreatedRepository.findDesaCreatedByCodeEquals(code);
     }
@@ -62,5 +67,10 @@ public class DesaCreatedServiceImplement implements DesaCreatedService {
 //            cardRepository.save(card);
 //        }
         return desaCreatedRepository.save(desaCreated);
+    }
+
+    @Override
+    public List<DesaCreated> getDesaCreatedByUserId(Integer userId) {
+        return desaCreatedRepository.findAllByUserCreated_IdAndState(userId , 1);
     }
 }

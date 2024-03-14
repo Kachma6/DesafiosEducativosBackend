@@ -23,7 +23,10 @@ public class UserController {
     public ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.ok().body(userService.getUsers());
     }
-
+    @GetMapping("/{username}/{password}")
+    public ResponseEntity<User> getUsersByUsernameAndPassword( @PathVariable final String username, @PathVariable final String password){
+        return ResponseEntity.ok().body(userService.getUserByUsernameAndPassword(username,password));
+    }
 
     @PostMapping
     public ResponseEntity<User> saveUser(@RequestBody final User user) throws URISyntaxException {

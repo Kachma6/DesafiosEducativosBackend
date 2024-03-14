@@ -33,21 +33,42 @@ public class DesafioCreatedController {
         return ResponseEntity.ok().body(desaCreatedService.findByCode(code));
     }
     @GetMapping("/by-id/{id}")
-    public ResponseEntity<Optional<DesaCreated>> getDesaCreatedByCode(@PathVariable final Integer id){
+    public ResponseEntity<Optional<DesaCreated>> getDesaCreatedById(@PathVariable final Integer id){
         return ResponseEntity.ok().body(desaCreatedService.findById(id));
+    }
+    @GetMapping("/by-id/{id}/complete")
+    public ResponseEntity<RegisterCompleteDesa> getDesaCreatedByIdComplete(@PathVariable final Integer id){
+       Optional<DesaCreated> desa = desaCreatedService.findById(id);
+        List<Card> cards = cardService.getCardsByIdDesa(id);
+        if(desa.isPresent()){
+            RegisterCompleteDesa response = new RegisterCompleteDesa(
+                    desa.get().getCreated(),
+                    desa.get().getFinishedDate(),
+                    desa.get().getNameDesa(),
+                    desa.get().getDescription(),
+                    desa.get().getNumRep(),
+                    desa.get().getUserCreated(),
+                    desa.get().getCode(),
+                    cards
+            );
+            return ResponseEntity.ok().body(response);
+        }else{
+            throw new IllegalArgumentException("Doesn't exist that desafio");
+        }
+
+
     }
     @GetMapping
     public ResponseEntity<List<DesaCreated>> getDesaCreated(){
         return ResponseEntity.ok().body(desaCreatedService.getDesaCreated());
     }
+    @GetMapping("/by-user-created/{userId}")
+    public ResponseEntity<List<DesaCreated>> getDesaCreated(@PathVariable Integer userId){
+        return ResponseEntity.ok().body(desaCreatedService.getDesaCreatedByUserId(userId));
+    }
+
     @PostMapping( )
     public ResponseEntity<DesaCreated> saveDesaCreated(@RequestBody final RegisterCompleteDesa registerCompleteDesa) throws URISyntaxException {
-
-//        if (registerCompleteDesa.getId() != null){
-//            throw new IllegalArgumentException("The new user shouldn't have Id ");
-//        }
-//        desaCreated.setFinishedDate(LocalDateTime.now());
-        System.out.println(registerCompleteDesa);
         registerCompleteDesa.setCreated(LocalDateTime.now());
         System.out.println(registerCompleteDesa);
         DesaCreated desa = new DesaCreated();
@@ -55,6 +76,7 @@ public class DesafioCreatedController {
         desa.setFinishedDate(registerCompleteDesa.getFinishedDate());
         desa.setCode(registerCompleteDesa.getCode());
         desa.setNumRep(registerCompleteDesa.getNumRep());
+        desa.setState(1);
         desa.setCreated(LocalDateTime.now());
 
         desa.setUserCreated(registerCompleteDesa.getIdUser());
@@ -71,5 +93,30 @@ public class DesafioCreatedController {
         }
         System.out.println(registerdb);
         return ResponseEntity.created(new URI("/v1/users/"+registerdb.getId())).body(registerdb);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RegisterCompleteDesa> editarDesaCreated(@PathVariable final Integer id, @RequestBody final RegisterCompleteDesa registerCompleteDesa){
+        return desaCreatedService.findById(id).map(desa -> {
+                desa.setNameDesa(registerCompleteDesa.getNameDesa());
+                desa.setDescription(registerCompleteDesa.getDescription());
+                desa.setNumRep(registerCompleteDesa.getNumRep());
+                desa.setFinishedDate(registerCompleteDesa.getFinishedDate());
+                registerCompleteDesa.setCards(cardService.setListCards(registerCompleteDesa.getCards()));
+                registerCompleteDesa.setDesaCreated( desaCreatedService.save(desa));
+            return ResponseEntity.ok(registerCompleteDesa);
+        }).orElseGet(()->{
+            throw new IllegalArgumentException("Don't find that desafio for edit");
+        });
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete (@PathVariable final Integer id){
+        Optional<DesaCreated> desa = desaCreatedService.findById(id);
+        if(desa.isPresent()){
+            desa.get().setState(0);
+            desaCreatedService.save(desa.get());
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

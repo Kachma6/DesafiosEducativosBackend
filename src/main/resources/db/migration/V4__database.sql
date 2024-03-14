@@ -11,12 +11,13 @@ create sequence user_sequence as integer increment 1;
 CREATE TABLE "desa_created" (
                                    "id" integer PRIMARY KEY,
                                    "created" timestamp,
-                                   "finished_date" timestamp,
-                                   "name_desa" varchar(200),
+                                   "finished_date" timestamp not null ,
+                                   "name_desa" varchar(200) not null ,
                                    "description" varchar(200),
-                                   "num_rep" integer,
-                                   "user_created" integer,
-                                   "code" varchar(10)
+                                   "num_rep" integer not null ,
+                                   "user_created" integer not null ,
+                                   "code" varchar(100) not null ,
+                                    "state" integer not null
 
 );
 create sequence desa_created_sequence as integer increment 1;
@@ -30,7 +31,8 @@ create sequence card_sequence as integer increment 1;
 CREATE TABLE "desa_join" (
                                 "id" integer PRIMARY KEY,
                                 "id_desa_created" integer NOT NULL ,
-                                "id_user" integer
+                                "id_user" integer,
+                                "num-reps" integer
 );
 create sequence desa_join_sequence as integer increment 1;
 CREATE TABLE rep_desa (
