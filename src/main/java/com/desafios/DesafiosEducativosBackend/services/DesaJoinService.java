@@ -16,4 +16,6 @@ public interface DesaJoinService {
     DesaJoin getIdDesaJoinByIdUserAndIdDesaCreated(Integer idUser, Integer idDesa);
 
     DesaJoin putDesaJoin(DesaJoin desaJoin);
+
+    void desescribirse(Integer id);
 }

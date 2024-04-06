@@ -5,7 +5,9 @@ CREATE TABLE "user_app" (
                         "username" varchar(150) NOT NULL,
                         "password" varchar(150) NOT NULL,
                         "email" varchar(150) UNIQUE NOT NULL,
-                        "created_at" timestamp
+                        "gender" integer not null,
+                        "created_at" timestamp,
+                        "rol" varchar
 );
 create sequence user_sequence as integer increment 1;
 CREATE TABLE "desa_created" (
@@ -17,7 +19,9 @@ CREATE TABLE "desa_created" (
                                    "num_rep" integer not null ,
                                    "user_created" integer not null ,
                                    "code" varchar(100) not null ,
-                                    "state" integer not null
+                                    "state" integer not null,
+                                    "num_cards" integer not null,
+                                    "num_members" integer not null
 
 );
 create sequence desa_created_sequence as integer increment 1;
@@ -32,7 +36,7 @@ CREATE TABLE "desa_join" (
                                 "id" integer PRIMARY KEY,
                                 "id_desa_created" integer NOT NULL ,
                                 "id_user" integer,
-                                "num-reps" integer
+                                "num_reps" integer
 );
 create sequence desa_join_sequence as integer increment 1;
 CREATE TABLE rep_desa (

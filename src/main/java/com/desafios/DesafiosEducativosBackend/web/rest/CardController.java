@@ -38,8 +38,8 @@ public class CardController {
         Card carddb = cardService.save(card);
         return ResponseEntity.created(new URI("/v1/users/"+carddb.getId())).body(carddb);
     }
-    @PostMapping("/all")
-    public ResponseEntity<List<Card>> saveAllCards(@RequestBody final List<Card> cards){
-        return ResponseEntity.ok().body(cardService.setListCards(cards));
-    }
+//    @PostMapping("/all")
+//    public ResponseEntity<List<Card>> saveAllCards(@RequestBody final List<Card> cards){
+//        return ResponseEntity.ok().body(cardService.setListCards(cards));
+//    }
 }

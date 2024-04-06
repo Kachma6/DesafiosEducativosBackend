@@ -46,4 +46,9 @@ public class DesaJoinServiceImplement implements DesaJoinService {
     public DesaJoin putDesaJoin(DesaJoin desaJoin) {
         return desaJoinRepository.save(desaJoin);
     }
+
+    @Override
+    public void desescribirse(Integer id) {
+        desaJoinRepository.deleteById(id);
+    }
 }

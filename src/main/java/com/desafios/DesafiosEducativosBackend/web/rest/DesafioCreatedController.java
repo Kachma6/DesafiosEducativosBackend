@@ -77,6 +77,8 @@ public class DesafioCreatedController {
         desa.setCode(registerCompleteDesa.getCode());
         desa.setNumRep(registerCompleteDesa.getNumRep());
         desa.setState(1);
+        desa.setNumCards(registerCompleteDesa.getCards().size());
+        desa.setNumMembers(0);
         desa.setCreated(LocalDateTime.now());
 
         desa.setUserCreated(registerCompleteDesa.getIdUser());
@@ -92,7 +94,8 @@ public class DesafioCreatedController {
             ));
         }
         System.out.println(registerdb);
-        return ResponseEntity.created(new URI("/v1/users/"+registerdb.getId())).body(registerdb);
+//        return ResponseEntity.created(new URI("/v1/users/"+registerdb.getId())).body(registerdb);
+        return ResponseEntity.ok(registerdb);
     }
 
     @PutMapping("/{id}")
@@ -102,7 +105,7 @@ public class DesafioCreatedController {
                 desa.setDescription(registerCompleteDesa.getDescription());
                 desa.setNumRep(registerCompleteDesa.getNumRep());
                 desa.setFinishedDate(registerCompleteDesa.getFinishedDate());
-                registerCompleteDesa.setCards(cardService.setListCards(registerCompleteDesa.getCards()));
+                registerCompleteDesa.setCards(cardService.setListCards(registerCompleteDesa.getCards(), id));
                 registerCompleteDesa.setDesaCreated( desaCreatedService.save(desa));
             return ResponseEntity.ok(registerCompleteDesa);
         }).orElseGet(()->{

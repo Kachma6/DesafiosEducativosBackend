@@ -30,7 +30,8 @@ public class CardServiceImplement implements CardService {
     }
 
     @Override
-    public List<Card> setListCards(List<Card> cards) {
+    public List<Card> setListCards(List<Card> cards, Integer id) {
+        cardRepository.deleteAll(cardRepository.getCardsByIdDesaCreated_Id(id));
         return cardRepository.saveAll(cards);
 
     }

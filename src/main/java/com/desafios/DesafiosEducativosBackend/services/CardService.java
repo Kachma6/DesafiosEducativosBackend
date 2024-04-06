@@ -10,5 +10,5 @@ public interface CardService {
 
     List<Card> getCardsByIdDesa(Integer id);
 
-    List<Card> setListCards(List<Card> cards);
+    List<Card> setListCards(List<Card> cards,Integer id);
 }

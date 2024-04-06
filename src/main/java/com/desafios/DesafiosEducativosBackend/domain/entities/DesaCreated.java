@@ -31,6 +31,10 @@ public class DesaCreated {
 //    state = 1   activo
 
     private Integer state;
+    @Column(name = "num_members")
+    private Integer numMembers;
+    @Column(name = "num_cards")
+    private Integer numCards;
     @ManyToOne
     @JoinColumn(name = "user_created")
     private User userCreated;

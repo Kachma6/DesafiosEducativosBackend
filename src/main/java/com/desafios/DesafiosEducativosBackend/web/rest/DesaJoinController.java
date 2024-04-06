@@ -5,6 +5,7 @@ import com.desafios.DesafiosEducativosBackend.domain.entities.DesaCreated;
 import com.desafios.DesafiosEducativosBackend.domain.entities.DesaJoin;
 import com.desafios.DesafiosEducativosBackend.services.DesaCreatedService;
 import com.desafios.DesafiosEducativosBackend.services.DesaJoinService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,21 +48,28 @@ public class DesaJoinController {
 //    }
 @PostMapping
 public ResponseEntity<DesaJoin> inscribirse(@RequestBody final RegisterToDesa registerToDesa) throws URISyntaxException {
-//    if (desaJoin.getId() != null){
-//        throw new IllegalArgumentException("The new user shouldn't have Id ");
-//    }
+
     DesaCreated desaCreated = desaCreatedService.findByCode(registerToDesa.getCode());
-    if(desaCreated != null){
-        System.out.println(desaCreated);
-        DesaJoin desaJoin = new DesaJoin();
-        desaJoin.setDesaCreated(desaCreated);
-        desaJoin.setUser(registerToDesa.getUser());
-        desaJoin.setNumReps(0);
-        DesaJoin db = desaJoinService.save(desaJoin);
-        return ResponseEntity.created(new URI("/v1/users/"+db.getId())).body(db);
+    DesaJoin desaJoin1 = desaJoinService.getIdDesaJoinByIdUserAndIdDesaCreated(registerToDesa.getUser().getId(), desaCreated.getId());
+    if(desaJoin1 == null){
+        if(desaCreated != null){
+            System.out.println(desaCreated);
+            DesaJoin desaJoin = new DesaJoin();
+            desaJoin.setDesaCreated(desaCreated);
+            desaJoin.setUser(registerToDesa.getUser());
+            desaJoin.setNumReps(0);
+            DesaJoin db = desaJoinService.save(desaJoin);
+            desaCreated.setNumMembers(desaCreated.getNumMembers()+1);
+            desaCreatedService.save(desaCreated);
+            return ResponseEntity.ok(db);
+        }else{
+            throw new IllegalArgumentException("No se Encontro el desafio");
+        }
     }else{
-        throw new IllegalArgumentException("No se Encontro el desafio");
+//        throw new IllegalArgumentException("Ya existe una inscription a ese desafio");
+        return  ResponseEntity.status(HttpStatus.CONFLICT).body(desaJoin1);
     }
+
 
 
 }
@@ -77,5 +85,10 @@ public ResponseEntity<DesaJoin> inscribirse(@RequestBody final RegisterToDesa re
     return ResponseEntity.ok(desa.get());
 
 
+ }
+ @DeleteMapping("/desescribirse/{id}")
+    public ResponseEntity<Void> desescribirse(@PathVariable final Integer id){
+        desaJoinService.desescribirse(id);
+      return  ResponseEntity.ok().build();
  }
 }
