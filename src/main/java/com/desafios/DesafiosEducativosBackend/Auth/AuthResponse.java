@@ -11,9 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AuthResponse {
     String token;
+    String refreshToken;
     String username;
     String firstName;
     String lastName;
     Integer gender;
     Integer id;
+    String type;
+
 }

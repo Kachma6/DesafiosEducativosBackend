@@ -47,7 +47,13 @@ CREATE TABLE rep_desa (
                           "id_desa" integer NOT NULL
 );
 create sequence rep_desa_sequence as integer increment 1;
+CREATE TABLE refresh_token (
+                          "id" integer PRIMARY KEY,
+                          "id_user" integer,
+                          "token" varchar(200),
+                          "expiry_date" timestamp
 
+);
 alter table desa_created add constraint FK_desa_created_ref_user foreign key (user_created) references "user_app" (id);
 alter table card add constraint FK_card_ref_desa_created foreign key (id_desa_created) references desa_created (id) ;
 alter table desa_join add constraint FK_desa_join_ref_desa_created foreign key (id_desa_created) references desa_created (id);
@@ -55,3 +61,4 @@ alter table desa_join add constraint FK_desa_join_ref_user foreign key (id_user)
 alter table rep_desa add constraint FK_rep_desa_ref_desa_join foreign key  (id_desa) references desa_join (id);
 
 
+alter table refresh_token add constraint FK_refresh_token_ref_user_app foreign key  ("id_user") references user_app (id);

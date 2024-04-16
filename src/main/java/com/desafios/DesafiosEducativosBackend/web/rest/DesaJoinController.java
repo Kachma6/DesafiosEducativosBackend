@@ -37,15 +37,7 @@ public class DesaJoinController {
         return ResponseEntity.ok().body(desaJoinService.getIdDesaJoinByIdUserAndIdDesaCreated(user,desa));
     }
 
-//    @PostMapping
-//    public ResponseEntity<DesaJoin> saveUser(@RequestBody final DesaJoin desaJoin) throws URISyntaxException {
-//        if (desaJoin.getId() != null){
-//            throw new IllegalArgumentException("The new user shouldn't have Id ");
-//        }
-//
-//        DesaJoin db = desaJoinService.save(desaJoin);
-//        return ResponseEntity.created(new URI("/v1/users/"+db.getId())).body(db);
-//    }
+
 @PostMapping
 public ResponseEntity<DesaJoin> inscribirse(@RequestBody final RegisterToDesa registerToDesa) throws URISyntaxException {
 
