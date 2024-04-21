@@ -11,7 +11,9 @@ public interface DesaCreatedService {
     Optional<DesaCreated> findById(Integer id);
     Optional<DesaCreated> findDesaCreatedById(Integer id);
     DesaCreated findByCode(String code);
-    DesaCreated save(DesaCreated desaCreated);
+    DesaCreated save(RegisterCompleteDesa registerCompleteDesa);
 
     List<DesaCreated>  getDesaCreatedByUserId( Integer userId);
+
+    void delete(Integer id);
 }

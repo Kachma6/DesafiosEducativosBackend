@@ -1,4 +1,4 @@
-package com.desafios.DesafiosEducativosBackend.Auth;
+package com.desafios.DesafiosEducativosBackend.domain.DTOS;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,14 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
-    String token;
-    String refreshToken;
-    String username;
+public class RegisterRequest {
     String firstName;
     String lastName;
+    String email;
+    String username;
+    String password;
     Integer gender;
-    Integer id;
-    String type;
-
 }

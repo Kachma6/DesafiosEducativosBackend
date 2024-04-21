@@ -1,4 +1,4 @@
-package com.desafios.DesafiosEducativosBackend.services;
+package com.desafios.DesafiosEducativosBackend.services.implement;
 
 import com.desafios.DesafiosEducativosBackend.domain.entities.RefreshToken;
 import com.desafios.DesafiosEducativosBackend.repositories.RefreshTokenRepository;
@@ -6,7 +6,7 @@ import com.desafios.DesafiosEducativosBackend.repositories.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,13 +15,8 @@ import java.util.UUID;
 
 @Service
 public class RefreshTokenService {
-//    @Value("${bezkoder.app.jwtRefreshExpirationMs}")
-//    private Long refreshTokenDurationMs;
-
 
     private final RefreshTokenRepository refreshTokenRepository;
-
-
     private final UserRepository userRepository;
 
     public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
@@ -36,11 +31,9 @@ public class RefreshTokenService {
 
     public RefreshToken createRefreshToken(Integer userId) {
         RefreshToken refreshToken = new RefreshToken();
-
         refreshToken.setUser(userRepository.findById(userId).get());
         refreshToken.setExpiryDate(Instant.now().plusMillis( 3600 * 1000));
         refreshToken.setToken(UUID.randomUUID().toString());
-
         refreshToken = refreshTokenRepository.save(refreshToken);
         return refreshToken;
     }
@@ -50,7 +43,6 @@ public class RefreshTokenService {
             refreshTokenRepository.delete(token);
             throw new IllegalArgumentException("El token a expirado");
         }
-
         return token;
     }
 

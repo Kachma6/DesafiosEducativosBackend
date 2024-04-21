@@ -1,5 +1,6 @@
 package com.desafios.DesafiosEducativosBackend.services.implement;
 
+import com.desafios.DesafiosEducativosBackend.domain.DTOS.RegisterToDesa;
 import com.desafios.DesafiosEducativosBackend.domain.entities.DesaCreated;
 import com.desafios.DesafiosEducativosBackend.domain.entities.DesaJoin;
 import com.desafios.DesafiosEducativosBackend.domain.entities.RepDesa;
@@ -7,6 +8,8 @@ import com.desafios.DesafiosEducativosBackend.repositories.DesaCreatedRepository
 import com.desafios.DesafiosEducativosBackend.repositories.DesaJoinRepository;
 import com.desafios.DesafiosEducativosBackend.repositories.RepDesaRepository;
 import com.desafios.DesafiosEducativosBackend.services.DesaJoinService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,6 +56,27 @@ public class DesaJoinServiceImplement implements DesaJoinService {
     @Override
     public DesaJoin putDesaJoin(DesaJoin desaJoin) {
         return desaJoinRepository.save(desaJoin);
+    }
+
+    @Override
+    public Integer inscribirse(RegisterToDesa registerToDesa) {
+
+        DesaCreated desaCreated = desaCreatedRepository.findDesaCreatedByCodeEquals(registerToDesa.getCode());
+        DesaJoin desaJoin1 = desaJoinRepository.findDesaJoinByUser_IdAndAndDesaCreated_Id(registerToDesa.getUser().getId(), desaCreated.getId());
+        if(desaJoin1 == null){
+            if(desaCreated != null){
+                DesaJoin desaJoin = new DesaJoin();
+                desaJoin.setDesaCreated(desaCreated);
+                desaJoin.setUser(registerToDesa.getUser());
+                desaJoin.setNumReps(0);
+                DesaJoin db = desaJoinRepository.save(desaJoin);
+                desaCreated.setNumMembers(desaCreated.getNumMembers()+1);
+                desaCreatedRepository.save(desaCreated);
+                return db.getId();
+            }
+        }
+
+        return -1;
     }
 
     @Override

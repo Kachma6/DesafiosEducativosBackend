@@ -1,7 +1,12 @@
-package com.desafios.DesafiosEducativosBackend.Auth;
+package com.desafios.DesafiosEducativosBackend.web.rest;
 
-import com.desafios.DesafiosEducativosBackend.services.RefreshTokenService;
+import com.desafios.DesafiosEducativosBackend.Auth.*;
+import com.desafios.DesafiosEducativosBackend.domain.DTOS.AuthResponse;
+import com.desafios.DesafiosEducativosBackend.domain.DTOS.LoginRequest;
+import com.desafios.DesafiosEducativosBackend.domain.DTOS.RegisterRequest;
+import com.desafios.DesafiosEducativosBackend.services.implement.RefreshTokenService;
 import com.desafios.DesafiosEducativosBackend.domain.entities.RefreshToken;
+import com.desafios.DesafiosEducativosBackend.services.implement.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,11 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/auth")
 //@RequiredArgsConstructor
 public class AuthController {
-
     private final AuthService authService;
-
     private final RefreshTokenService refreshTokenService;
-
     private final JwtService jwtUtils;
 
     public AuthController(AuthService authService, RefreshTokenService refreshTokenService, JwtService jwtUtils) {
@@ -32,8 +34,6 @@ public class AuthController {
     @PostMapping(value = "refreshtoken")
     public ResponseEntity<?> postRefreshtoken( @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
-
-
         return refreshTokenService.findByToken(requestRefreshToken)
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)

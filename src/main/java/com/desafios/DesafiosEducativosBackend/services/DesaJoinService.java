@@ -1,6 +1,7 @@
 package com.desafios.DesafiosEducativosBackend.services;
 
 
+import com.desafios.DesafiosEducativosBackend.domain.DTOS.RegisterToDesa;
 import com.desafios.DesafiosEducativosBackend.domain.entities.DesaJoin;
 
 import java.util.List;
@@ -17,5 +18,6 @@ public interface DesaJoinService {
 
     DesaJoin putDesaJoin(DesaJoin desaJoin);
 
+    Integer inscribirse(RegisterToDesa registerToDesa);
     void desescribirse(Integer id);
 }

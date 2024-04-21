@@ -24,14 +24,6 @@ public class RepDesaController {
         this.desaJoinService = desaJoinService;
     }
 
-    @GetMapping("/{user}/{desa}")
-    public ResponseEntity<List<RepDesa>> getRepDesa(@PathVariable final Integer user, @PathVariable final Integer desa){
-        DesaJoin desaJoin = desaJoinService.getIdDesaJoinByIdUserAndIdDesaCreated(user, desa);
-
-        return ResponseEntity.ok().body(repDesaService.getRepasosByIdDesaJoin(desaJoin.getId()));
-    }
-
-
     @PostMapping
     public ResponseEntity<RepDesa> saveRepaso(@RequestBody final RepDesa repDesa) throws URISyntaxException {
         if (repDesa.getId() != null){
