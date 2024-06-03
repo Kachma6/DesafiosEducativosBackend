@@ -69,6 +69,7 @@ public class DesaJoinServiceImplement implements DesaJoinService {
                 desaJoin.setDesaCreated(desaCreated);
                 desaJoin.setUser(registerToDesa.getUser());
                 desaJoin.setNumReps(0);
+                desaJoin.setState(0);
                 DesaJoin db = desaJoinRepository.save(desaJoin);
                 desaCreated.setNumMembers(desaCreated.getNumMembers()+1);
                 desaCreatedRepository.save(desaCreated);
@@ -91,5 +92,20 @@ public class DesaJoinServiceImplement implements DesaJoinService {
        }
 
         desaJoinRepository.deleteById(id);
+    }
+
+    @Override
+    public Integer getScore(Integer idUser) {
+        List<DesaJoin> listaDesaJoin = desaJoinRepository.getAllByUser_Id(idUser);
+        //Terminado = 1
+        Integer option1 = 0;
+
+        for(int i = 0; i < listaDesaJoin.size();i++){
+            if (listaDesaJoin.get(i).getState() == 1){
+                option1++;
+            }
+
+        }
+        return option1 * 5;
     }
 }

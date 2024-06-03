@@ -70,12 +70,19 @@ public class DesaCreatedServiceImplement implements DesaCreatedService {
             cardRepository.save( new Card(
                     cards.get(i).getQuestion(),
                     cards.get(i).getAnswer(),
+                    cards.get(i).getUrl(),
+                    cards.get(i).getIdImage(),
                     cards.get(i).getIdDesaCreated()
             ));
         }
 
         return db ;
 
+    }
+
+    @Override
+    public DesaCreated save(DesaCreated desaCreated) {
+        return desaCreatedRepository.save(desaCreated);
     }
 
     @Override

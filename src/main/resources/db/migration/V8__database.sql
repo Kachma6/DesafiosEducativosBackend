@@ -2,7 +2,7 @@ CREATE TABLE "user_app" (
                         "id" integer PRIMARY KEY,
                         "first_name" varchar(150) NOT NULL,
                         "last_name" varchar(150) NOT NULL,
-                        "username" varchar(150) NOT NULL,
+                        "username" varchar(150) UNIQUE NOT NULL,
                         "password" varchar(150) NOT NULL,
                         "email" varchar(150) UNIQUE NOT NULL,
                         "gender" integer not null,
@@ -29,6 +29,8 @@ CREATE TABLE "card" (
                         "id" integer PRIMARY KEY,
                         "question" varchar(200) NOT NULL,
                         "answer" varchar(100) NOT NULL,
+                        "url" varchar(200),
+                        "id_image" integer,
                         "id_desa_created" integer
 );
 create sequence card_sequence as integer increment 1;
@@ -36,7 +38,9 @@ CREATE TABLE "desa_join" (
                                 "id" integer PRIMARY KEY,
                                 "id_desa_created" integer NOT NULL ,
                                 "id_user" integer,
-                                "num_reps" integer
+                                "num_reps" integer,
+                                "state" integer
+
 );
 create sequence desa_join_sequence as integer increment 1;
 CREATE TABLE rep_desa (

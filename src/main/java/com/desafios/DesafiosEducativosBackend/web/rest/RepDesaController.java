@@ -36,6 +36,11 @@ public class RepDesaController {
 
         repDesa.setDateRep(LocalDateTime.now());
         RepDesa repDesadb = repDesaService.save(repDesa);
+
+        if ( desa.get().getNumReps() == desa.get().getDesaCreated().getNumRep() ){
+            desa.get().setState(1);
+            DesaJoin db = desaJoinService.save(desa.get());
+        }
         return ResponseEntity.created(new URI("/v1/users/"+repDesadb.getId())).body(repDesadb);
     }
 }

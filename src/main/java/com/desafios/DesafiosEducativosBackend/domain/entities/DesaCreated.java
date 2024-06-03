@@ -51,7 +51,9 @@ public class DesaCreated {
         this.userCreated = userCreated;
         this.code = code;
     }
-
+    public DesaCreated(Integer id){
+       this.id = id;
+    }
     public DesaCreated() {
     }
 }

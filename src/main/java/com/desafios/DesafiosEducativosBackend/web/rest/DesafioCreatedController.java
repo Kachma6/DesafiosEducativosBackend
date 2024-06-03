@@ -2,7 +2,9 @@ package com.desafios.DesafiosEducativosBackend.web.rest;
 
 
 
+import com.desafios.DesafiosEducativosBackend.domain.DTOS.CardDTO;
 import com.desafios.DesafiosEducativosBackend.domain.DTOS.RegisterCompleteDesa;
+import com.desafios.DesafiosEducativosBackend.domain.DTOS.ResponseCompleteDesa;
 import com.desafios.DesafiosEducativosBackend.domain.entities.DesaCreated;
 import com.desafios.DesafiosEducativosBackend.domain.entities.Card;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,11 +37,17 @@ public class DesafioCreatedController {
         return ResponseEntity.ok().body(desaCreatedService.findById(id));
     }
     @GetMapping("/{id}/complete")
-    public ResponseEntity<RegisterCompleteDesa> getDesaCreatedByIdComplete(@PathVariable final Integer id){
+    public ResponseEntity<ResponseCompleteDesa> getDesaCreatedByIdComplete(@PathVariable final Integer id){
        Optional<DesaCreated> desa = desaCreatedService.findById(id);
         List<Card> cards = cardService.getCardsByIdDesa(id);
+        List<CardDTO> aux = new ArrayList<>();
+        for(int i = 0; i< cards.size();i++){
+            DesaCreated idDesaCreated = new DesaCreated( cards.get(i).getIdDesaCreated().getId());
+            CardDTO cardAux = new CardDTO(cards.get(i).getAnswer(),cards.get(i).getQuestion(), idDesaCreated , cards.get(i).getUrl(), cards.get(i).getIdImage());
+            aux.add(cardAux);
+        }
         if(desa.isPresent()){
-            RegisterCompleteDesa response = new RegisterCompleteDesa(
+            ResponseCompleteDesa response = new ResponseCompleteDesa(
                     desa.get().getCreated(),
                     desa.get().getFinishedDate(),
                     desa.get().getNameDesa(),
@@ -46,7 +55,7 @@ public class DesafioCreatedController {
                     desa.get().getNumRep(),
                     desa.get().getUserCreated(),
                     desa.get().getCode(),
-                    cards
+                    aux
             );
             return ResponseEntity.ok().body(response);
         }else{
@@ -67,20 +76,24 @@ public class DesafioCreatedController {
         return ResponseEntity.ok(registerdb);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<RegisterCompleteDesa> editarDesaCreated(@PathVariable final Integer id, @RequestBody final RegisterCompleteDesa registerCompleteDesa){
-//        return desaCreatedService.findById(id).map(desa -> {
-//                desa.setNameDesa(registerCompleteDesa.getNameDesa());
-//                desa.setDescription(registerCompleteDesa.getDescription());
-//                desa.setNumRep(registerCompleteDesa.getNumRep());
-//                desa.setFinishedDate(registerCompleteDesa.getFinishedDate());
-//                registerCompleteDesa.setCards(cardService.setListCards(registerCompleteDesa.getCards(), id));
-//                registerCompleteDesa.setDesaCreated( desaCreatedService.save(desa));
-//            return ResponseEntity.ok(registerCompleteDesa);
-//        }).orElseGet(()->{
-//            throw new IllegalArgumentException("Don't find that desafio for edit");
-//        });
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<RegisterCompleteDesa> editarDesaCreated(@PathVariable final Integer id, @RequestBody final RegisterCompleteDesa registerCompleteDesa){
+
+
+        return desaCreatedService.findById(id).map(desa -> {
+                desa.setNameDesa(registerCompleteDesa.getNameDesa());
+                desa.setDescription(registerCompleteDesa.getDescription());
+                desa.setNumRep(registerCompleteDesa.getNumRep());
+                desa.setNumCards(registerCompleteDesa.getCards().size());
+                desa.setFinishedDate(registerCompleteDesa.getFinishedDate());
+                registerCompleteDesa.setCards(cardService.setListCards(registerCompleteDesa.getCards(), id));
+                registerCompleteDesa.setDesaCreated( desaCreatedService.save(desa));
+            return ResponseEntity.ok(registerCompleteDesa);
+        }).orElseGet(()->{
+            throw new IllegalArgumentException("Don't find that desafio for edit");
+        });
+
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete (@PathVariable final Integer id){
         desaCreatedService.delete(id);

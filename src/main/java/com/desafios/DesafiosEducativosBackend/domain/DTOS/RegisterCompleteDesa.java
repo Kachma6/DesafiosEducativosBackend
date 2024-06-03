@@ -27,19 +27,19 @@ public class RegisterCompleteDesa {
     private String code;
     private List<Card> cards;
 
-    public DesaCreated getDesaCreateComplete(){
-        DesaCreated aux = new DesaCreated(
-             created,
-             finishedDate,
-             nameDesa,
-             description,
-             numRep,
-             1,
-             idUser,
-             code
-        );
-        return aux;
-    }
+//    public DesaCreated getDesaCreateComplete(){
+//        DesaCreated aux = new DesaCreated(
+//             created,
+//             finishedDate,
+//             nameDesa,
+//             description,
+//             numRep,
+//             1,
+//             idUser,
+//             code
+//        );
+//        return aux;
+//    }
     public void setDesaCreated(DesaCreated desaCreated){
         this.nameDesa = desaCreated.getNameDesa();
         this.description = desaCreated.getDescription();

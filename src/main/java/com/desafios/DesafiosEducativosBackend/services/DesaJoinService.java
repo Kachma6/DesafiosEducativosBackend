@@ -20,4 +20,6 @@ public interface DesaJoinService {
 
     Integer inscribirse(RegisterToDesa registerToDesa);
     void desescribirse(Integer id);
+
+    Integer getScore(Integer idUser);
 }

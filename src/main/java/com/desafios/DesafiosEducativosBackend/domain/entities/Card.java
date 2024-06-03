@@ -13,17 +13,25 @@ public class Card {
     private Integer id;
     private String question;
     private String answer;
+    private String url;
+    @Column(name = "id_image")
+    private Integer idImage;
     @ManyToOne
     @JoinColumn(name = "id_desa_created")
     private DesaCreated idDesaCreated;
 
 
-    public Card(String question, String answer, DesaCreated idDesafioCreated) {
+    public Card(String question, String answer, String url, Integer idImage, DesaCreated idDesaCreated) {
         this.question = question;
         this.answer = answer;
-        this.idDesaCreated = idDesafioCreated;
+        this.url = url;
+        this.idImage = idImage;
+        this.idDesaCreated = idDesaCreated;
     }
 
+    public Card(Integer id){
+
+    }
     public Card() {
     }
 }
